@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>倍刻List · 效率翻倍，时刻从容</title>
+  <style>
+    :root {
+      --ink: #2a2f3a;
+      --muted: #6b7480;
+      --accent: #2998ef;
+      --accent-2: #20c2c3;
+      --accent-3: #f3a21a;
+      --line: #e7ecf2;
+      --bg: #f5f8fb;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero {
+      background: linear-gradient(140deg, #2998ef 0%, #20c2c3 100%);
+      color: #fff;
+      padding: 72px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; border-radius: 999px; pointer-events: none;
+    }
+    .hero::before { width: 380px; height: 380px; top: -160px; left: -120px; background: rgba(255,255,255,.14); }
+    .hero::after { width: 300px; height: 300px; bottom: -140px; right: -100px; background: rgba(255,255,255,.10); }
+    .hero .badge {
+      display: inline-block; padding: 6px 16px; border-radius: 999px;
+      background: rgba(255,255,255,.2); font-size: 14px; font-weight: 600; margin-bottom: 22px;
+    }
+    .hero h1 { margin: 0 0 12px; font-size: 44px; letter-spacing: -1px; font-weight: 850; position: relative; }
+    .hero .slogan { margin: 0 0 8px; font-size: 20px; font-weight: 600; opacity: .95; position: relative; }
+    .hero .sub { margin: 0; font-size: 15px; opacity: .88; position: relative; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 70px; }
+    .section-title { text-align: center; margin-bottom: 30px; }
+    .section-title h2 { font-size: 26px; margin: 0 0 8px; color: #17314d; }
+    .section-title p { margin: 0; color: var(--muted); font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+    .feature {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 8px 24px rgba(30, 60, 100, .05);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .feature:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(30, 60, 100, .10); }
+    .feature .emoji { font-size: 32px; display: block; margin-bottom: 10px; }
+    .feature .t { font-size: 16px; font-weight: 700; color: #17314d; margin-bottom: 5px; }
+    .feature .d { font-size: 13.5px; color: var(--muted); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 34px; }
+    .pill { padding: 10px 18px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-size: 14px; font-weight: 600; color: #41516a; box-shadow: 0 6px 14px rgba(67, 102, 130, .07); }
+    .pill .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #23ae91; margin-right: 7px; }
+    .cta {
+      text-align: center; padding: 48px 24px; border-radius: 24px;
+      background: linear-gradient(140deg, #edf8fc 0%, #d9edf7 100%);
+      border: 1px solid #d6ecfb;
+    }
+    .cta h2 { margin: 0 0 10px; font-size: 26px; color: #17314d; }
+    .cta p { margin: 0 0 22px; color: var(--muted); font-size: 15px; }
+    .cta .store-btn {
+      display: inline-block; padding: 14px 34px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; font-size: 16px; font-weight: 700; text-decoration: none;
+      box-shadow: 0 12px 28px rgba(41, 152, 239, .3);
+    }
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 24px; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="badge">一款可爱治愈又高效自律的生活管理 App</div>
+    <h1>倍刻List</h1>
+    <p class="slogan">效率翻倍，时刻从容</p>
+    <p class="sub">把待办、专注、计划、习惯，装进一段更可爱、更从容的日常。</p>
+  </div>
+
+  <div class="wrap">
+    <div class="pill-row">
+      <span class="pill"><i class="dot"></i>一眼看见今日进度</span>
+      <span class="pill"><i class="dot" style="background:#2d90ed"></i>让小小的完成，积累成大目标</span>
+      <span class="pill"><i class="dot" style="background:#f3a21a"></i>把时间花在真正重要的事上</span>
+    </div>
+
+    <div class="section-title">
+      <h2>一个 App，装下你的整个日常</h2>
+      <p>从「想做」到「做到」，每一步都有回应</p>
+    </div>
+
+    <div class="grid">
+      <div class="feature"><span class="emoji">✅</span><div class="t">待办</div><div class="d">四象限 / 看板 / 今天，多维视角完成即勾选，进度看得见。</div></div>
+      <div class="feature"><span class="emoji">🍅</span><div class="t">番茄钟</div><div class="d">25 分钟专注 + 白噪音 + 锁屏实时活动，沉浸不被打断。</div></div>
+      <div class="feature"><span class="emoji">🎯</span><div class="t">计划</div><div class="d">周 / 月 / 季 / 年 + OKR，年目标拆解到每个待办。</div></div>
+      <div class="feature"><span class="emoji">📅</span><div class="t">日历</div><div class="d">月视图时间轴，苹果日历与提醒事项双向同步。</div></div>
+      <div class="feature"><span class="emoji">⏳</span><div class="t">倒数日</div><div class="d">重要日子一眼可见，支持横屏放大展示。</div></div>
+      <div class="feature"><span class="emoji">🌱</span><div class="t">习惯</div><div class="d">每日打卡，长期坚持不中断，好习惯慢慢养成。</div></div>
+      <div class="feature"><span class="emoji">✈️</span><div class="t">旅程</div><div class="d">同行人 / 预算 / 交通一网打尽，行程安排井井有条。</div></div>
+      <div class="feature"><span class="emoji">👥</span><div class="t">待办圈</div><div class="d">好友动态、自习室、排行榜，一群人一起坚持。</div></div>
+      <div class="feature"><span class="emoji">🐱</span><div class="t">宠物</div><div class="d">六阶段成长的猫咪 / 小狗，完成时给你软乎乎的陪伴。</div></div>
+      <div class="feature"><span class="emoji">📊</span><div class="t">统计</div><div class="d">多维图表复盘，一键导出图片 / PDF，分享坚持成果。</div></div>
+      <div class="feature"><span class="emoji">🧩</span><div class="t">小组件</div><div class="d">待办 / 计划 / 倒数日直达主屏，目标一眼看见。</div></div>
+      <div class="feature"><span class="emoji">☁️</span><div class="t">云同步</div><div class="d">数据多端互通，云端备份安心，换机不丢。</div></div>
+    </div>
+
+    <div style="height:48px"></div>
+
+    <div class="cta">
+      <h2>把坚持，变成看得见的进步</h2>
+      <p>现在就去 App Store 搜索「倍刻List」下载体验吧</p>
+      <a class="store-btn" href="https://apps.apple.com/app/id1000000000" target="_blank" rel="noopener">前往 App Store 下载</a>
+    </div>
+  </div>
+
+  <footer>© 2026 倍刻List（BeCool / BeClock）· 一款可爱治愈又高效自律的生活管理 App</footer>
+</body>
+</html>
