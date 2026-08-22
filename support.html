@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>倍刻List · 技术支持</title>
+  <style>
+    :root {
+      --ink: #2a2f3a;
+      --muted: #6b7480;
+      --accent: #2998ef;
+      --accent-2: #20c2c3;
+      --line: #e7ecf2;
+      --bg: #f5f8fb;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+    header {
+      background: linear-gradient(135deg, #2998ef 0%, #20c2c3 100%);
+      border-radius: 20px;
+      padding: 40px 36px;
+      color: #fff;
+      margin-bottom: 32px;
+      box-shadow: 0 18px 40px rgba(41, 152, 239, .25);
+    }
+    header h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: .5px; }
+    header p { margin: 0; font-size: 14px; opacity: .92; }
+    header .tagname { display: inline-block; margin-top: 14px; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.2); font-size: 13px; font-weight: 600; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(30, 60, 100, .05);
+    }
+    h2 { font-size: 19px; margin: 0 0 14px; color: #17314d; display: flex; align-items: center; gap: 8px; }
+    h2 .num {
+      flex: none; width: 24px; height: 24px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; font-size: 13px; display: inline-flex; align-items: center; justify-content: center;
+    }
+    h3 { font-size: 15.5px; margin: 18px 0 6px; color: #17314d; }
+    p { margin: 0 0 12px; font-size: 15px; }
+    ul { margin: 0 0 12px; padding-left: 20px; }
+    li { font-size: 15px; margin-bottom: 6px; }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+    .contact-box {
+      background: #f0f8ff;
+      border: 1px solid #d6ecfb;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-top: 12px;
+    }
+    .contact-box .email { font-size: 18px; font-weight: 700; color: #1a7fd0; word-break: break-all; }
+    .faq-item { border-bottom: 1px solid var(--line); padding: 14px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 650; font-size: 15px; color: #17314d; margin-bottom: 5px; }
+    .faq-a { font-size: 14.5px; color: var(--muted); }
+    footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 32px; }
+    a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>倍刻List · 技术支持</h1>
+      <p>遇到问题别着急，这里都能找到答案</p>
+      <span class="tagname">效率翻倍，时刻从容</span>
+    </header>
+
+    <div class="card">
+      <h2><span class="num">1</span>联系我们</h2>
+      <p>如遇到 Bug、内购未到账、功能不会用等问题，欢迎通过以下方式联系技术支持：</p>
+      <div class="contact-box">
+        <p class="muted" style="margin-bottom:4px">客服邮箱：</p>
+        <p class="email"><a href="mailto:q910139463@163.com">q910139463@163.com</a></p>
+        <p class="muted small" style="margin:8px 0 0">我们通常会在 1-3 个工作日内回复，请尽量描述清楚问题出现的场景与截图。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="num">2</span>常见问题</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">内购 / 会员没有到账怎么办？</div>
+        <div class="faq-a">通常在支付成功后会自动到账。若未到账，请在「我的 → 会员」里点击「恢复购买」；仍无效请重启 App 或稍后再试，也可发邮件联系我们并附上订单号。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">订阅如何取消或申请退款？</div>
+        <div class="faq-a">订阅由 Apple 处理，开发者无权操作。请在 iPhone「设置 → Apple ID → 订阅」中取消；退款请通过 App Store「报告问题」提交申请。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">待办 / 日程为什么没有多设备同步？</div>
+        <div class="faq-a">请确认已登录同一账号，并在「我的 → 数据面板」开启云端同步；同时检查网络与账号登录状态。离线产生的修改会在联网后自动合并上传。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">苹果日历 / 提醒事项如何与本 App 互通？</div>
+        <div class="faq-a">在「我的 → 苹果同步」里开启授权，即可聚合展示系统日历与提醒事项。相关数据仅保存在您的设备与 iCloud 中。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">桌面小组件不显示或数据不更新？</div>
+        <div class="faq-a">请在桌面长按 → 添加「倍刻List」小组件后，打开一次 App 让数据刷新；若仍异常可重启手机或重新添加组件。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">数据如何备份与恢复？</div>
+        <div class="faq-a">在「我的 → 数据面板」可导出本地备份文件，或使用云端备份与恢复，方便换机迁移数据。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">忘记账号密码 / 想注销账号？</div>
+        <div class="faq-a">可通过注册邮箱找回密码；如需注销账号，请发送邮件说明，我们会在核实身份后协助处理，并删除相关数据。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="num">3</span>反馈建议</h2>
+      <p>无论是功能建议还是体验反馈，都欢迎发邮件告诉我们。你的每一条建议，都会帮助「倍刻List」变得更好。</p>
+      <p class="muted">联系邮箱：<a href="mailto:q910139463@163.com">q910139463@163.com</a></p>
+    </div>
+
+    <footer>© 2026 倍刻List（BeCool / BeClock）· 技术支持与客服</footer>
+  </div>
+</body>
+</html>
