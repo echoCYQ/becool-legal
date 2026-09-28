@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倍刻List 使用教程 · 全功能详解版</title>
+<style>
+  :root{
+    --bg:#ffffff; --bg2:#faf9fd; --card:#ffffff; --card2:#f6f4fb;
+    --pink:#e0559e; --pink2:#d63d92; --purple:#7c5ce0; --cyan:#0d9488;
+    --text:#241a38; --sub:#4c4560; --dim:#857d9e;
+    --grad:linear-gradient(135deg,#e0559e,#7c5ce0);
+    --line:#e9e4f2; --shadow:0 10px 30px rgba(36,26,56,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(60% 40% at 80% 0%,rgba(124,92,224,.06),transparent 60%),
+               radial-gradient(50% 35% at 10% 20%,rgba(224,85,158,.05),transparent 60%),
+               radial-gradient(40% 30% at 90% 80%,rgba(13,148,136,.04),transparent 60%)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+
+  header.hero{text-align:center;padding:72px 20px 40px}
+  .appicon{width:88px;height:88px;border-radius:22px;margin:0 auto 18px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 12px 32px rgba(224,85,158,.28)}
+  h1{font-size:clamp(28px,5vw,44px);letter-spacing:1px}
+  h1 .accent{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{color:var(--sub);margin-top:10px;font-size:16px}
+  .meta{color:var(--dim);font-size:13px;margin-top:14px}
+
+  nav.toc{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;
+    padding:22px 26px;margin:26px auto 10px;max-width:1060px}
+  nav.toc h2{font-size:15px;color:var(--pink2);margin-bottom:12px;letter-spacing:2px}
+  nav.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 18px}
+  nav.toc a{color:var(--sub);text-decoration:none;font-size:14px;display:block;padding:5px 8px;border-radius:8px;transition:.15s}
+  nav.toc a:hover{color:var(--text);background:rgba(124,92,224,.10)}
+  nav.toc a b{color:var(--pink);font-weight:600;margin-right:6px}
+
+  section.chapter{margin:64px 0}
+  .ch-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:20px}
+  .ch-num{font-size:13px;font-weight:700;color:#ffffff;background:var(--grad);border-radius:8px;padding:3px 10px;letter-spacing:1px}
+  .ch-head h2{font-size:clamp(21px,3.4vw,28px)}
+  .ch-head .en{color:var(--dim);font-size:13px;letter-spacing:2px;text-transform:uppercase}
+  .ch-head .home{margin-left:auto;color:var(--cyan);font-size:12.5px;border:1px solid rgba(94,234,212,.35);border-radius:99px;padding:2px 12px}
+  .ch-lead{color:var(--sub);font-size:15.5px;margin-bottom:18px;max-width:860px}
+
+  .cols{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+  .cols .txt{flex:1 1 340px;min-width:300px}
+  .cols .shots{flex:1 1 420px;min-width:320px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;justify-items:center}
+
+  ul.points{list-style:none}
+  ul.points li{padding:7px 0 7px 28px;position:relative;color:var(--sub);font-size:15px}
+  ul.points li::before{content:"";position:absolute;left:2px;top:16px;width:10px;height:10px;border-radius:3px;background:var(--grad)}
+  ul.points li b{color:var(--text)}
+
+  .sub-h{color:var(--pink2);font-size:16px;font-weight:700;margin:26px 0 6px;letter-spacing:1px}
+  .sub-h::before{content:"▸ "}
+
+  ol.steps{list-style:none;counter-reset:st;margin-top:6px;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:8px 18px}
+  ol.steps li{counter-increment:st;position:relative;padding:12px 0 12px 48px;color:var(--sub);font-size:15px;border-bottom:1px dashed var(--line)}
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps li::before{content:counter(st);position:absolute;left:0;top:12px;width:30px;height:30px;border-radius:50%;
+    background:var(--grad);color:#ffffff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px}
+  ol.steps li b{color:var(--text)}
+  ol.steps li code{background:rgba(13,148,136,.10);color:#0d9488;border-radius:6px;padding:1px 7px;font-size:13px}
+
+  table.fields{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+  table.fields th:first-child{white-space:nowrap}
+  table.fields th{color:var(--pink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px;letter-spacing:1px;background:rgba(124,92,224,.07)}
+  table.fields td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--sub);vertical-align:top;line-height:1.6}
+  table.fields tr:last-child td{border-bottom:none}
+  table.fields td:first-child{color:var(--text);white-space:nowrap;font-weight:600}
+
+  .tip{background:rgba(13,148,136,.06);border:1px solid rgba(13,148,136,.28);border-radius:14px;
+    padding:12px 16px;margin-top:16px;font-size:14px;color:#0f766e}
+  .tip::before{content:"💡 ";}
+  .warn{background:rgba(224,85,158,.06);border:1px solid rgba(224,85,158,.3);border-radius:14px;
+    padding:12px 16px;margin-top:16px;font-size:14px;color:#b23776}
+  .warn::before{content:"🔒 ";}
+
+  figure.shot{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+  figure.shot img{width:100%;max-width:320px;border-radius:26px;border:1px solid var(--line);
+    box-shadow:0 14px 34px rgba(36,26,56,.14);cursor:zoom-in;transition:transform .2s}
+  figure.shot img:hover{transform:translateY(-4px)}
+  figure.shot figcaption{color:var(--dim);font-size:13px;text-align:center;line-height:1.5}
+  figure.shot.wide{width:auto}
+  figure.shot.wide img{width:330px;max-width:80vw;border-radius:18px}
+  figure.shot.mac{width:100%}
+  figure.shot.mac img{width:100%;max-width:640px;border-radius:14px}
+  section.chapter > .shots{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:26px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:8px}
+  .mini{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:16px 18px;transition:.15s}
+  .mini:hover{border-color:var(--pink);transform:translateY(-2px)}
+  .mini .ic{font-size:24px}
+  .mini h3{font-size:16px;margin:8px 0 4px}
+  .mini p{color:var(--dim);font-size:13.5px;line-height:1.6}
+
+  kbd{background:#f4f1fa;border:1px solid #d9d2ea;border-bottom-width:3px;border-radius:7px;
+    padding:1px 8px;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--purple)}
+
+  footer{margin:70px 0 40px;text-align:center;color:var(--dim);font-size:13px;border-top:1px solid var(--line);padding-top:26px}
+
+  #lightbox{position:fixed;inset:0;background:rgba(10,6,20,.92);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:24px}
+  #lightbox.open{display:flex}
+  #lightbox img{max-height:92vh;max-width:94vw;border-radius:20px;box-shadow:0 20px 80px rgba(0,0,0,.8)}
+
+  @media (max-width:640px){
+    figure.shot img{width:78vw;max-width:340px}
+    figure.shot.wide img{width:80vw}
+    figure.shot.mac img{max-width:100%}
+    .cols .shots{gap:14px}
+    ol.steps li{padding-left:44px}
+  }
+  @media print{
+    body::before,#lightbox{display:none}
+    figure.shot img{box-shadow:none;width:240px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="appicon">🐸</div>
+  <h1>倍刻List <span class="accent">使用教程 · 全功能详解版</span></h1>
+  <p class="tagline">每个功能点哪里、看到什么、下一步做什么 —— 跟着步骤做一遍就会</p>
+  <p class="meta">截图均来自真实 App 界面（开发测试版） · 更新于 2026-09-28</p>
+</header>
+
+<div class="wrap">
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#ch1"><b>01</b>界面导览与底栏自定义</a></li>
+    <li><a href="#ch2"><b>02</b>待办：逐字段详解与实操</a></li>
+    <li><a href="#ch3"><b>03</b>番茄钟：专注与科目</a></li>
+    <li><a href="#ch4"><b>04</b>日历：月历与日视图</a></li>
+    <li><a href="#ch5"><b>05</b>计划：OKR 目标管理</a></li>
+    <li><a href="#ch6"><b>06</b>习惯：打卡与连击</a></li>
+    <li><a href="#ch7"><b>07</b>倒数日：公历农历都能记</a></li>
+    <li><a href="#ch8"><b>08</b>备忘录：会打勾的笔记</a></li>
+    <li><a href="#ch9"><b>09</b>统计：看懂你的坚持</a></li>
+    <li><a href="#ch10"><b>10</b>健康：睡眠运动与补记</a></li>
+    <li><a href="#ch11"><b>11</b>进度条：全目标一屏推进</a></li>
+    <li><a href="#ch12"><b>12</b>倍刻环：摸摸 24 小时</a></li>
+    <li><a href="#ch13"><b>13</b>记账：记一笔与隐私</a></li>
+    <li><a href="#ch14"><b>14</b>心情：三秒钟打个卡</a></li>
+    <li><a href="#ch15"><b>15</b>收集单：结构化收集</a></li>
+    <li><a href="#ch16"><b>16</b>复盘：多维回望每一天</a></li>
+    <li><a href="#ch17"><b>17</b>活动：青蛙币激励</a></li>
+    <li><a href="#ch18"><b>18</b>宠物：养一只小可爱</a></li>
+    <li><a href="#ch19"><b>19</b>搭子社交：一起坚持</a></li>
+    <li><a href="#ch20"><b>20</b>表盘工坊：戴上手腕</a></li>
+    <li><a href="#ch21"><b>21</b>快捷指令中心</a></li>
+    <li><a href="#ch22"><b>22</b>桌面小组件与工坊</a></li>
+    <li><a href="#ch23"><b>23</b>Mac 版与快捷键</a></li>
+    <li><a href="#ch24"><b>24</b>账号、同步与设置</a></li>
+  </ol>
+</nav>
+
+<!-- ============ 01 界面 ============ -->
+<section class="chapter" id="ch1">
+  <div class="ch-head"><span class="ch-num">01</span><h2>界面导览与底栏自定义</h2><span class="en">Navigation</span><span class="home">入口：全局面</span></div>
+  <p class="ch-lead">打开 App，底部是一条胶囊导航栏，默认六个位置：<b>统计、待办、效率、探索、百宝袋、我的</b>。其中「效率」「探索」「百宝袋」是<b>文件夹</b>——点开弹出悬浮面板，里面收纳着更多模块；再点一下或下拉即可收起。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">六个槽位里都有什么</h3>
+      <ul class="points">
+        <li><b>统计</b>：首页报表，各模块数据汇总（第 09 章）。</li>
+        <li><b>待办</b>：任务清单，最高频入口（第 02 章）。</li>
+        <li><b>效率（文件夹）</b>：备忘录、番茄钟、计划、日历、倒数日、习惯（第 03–08 章）。</li>
+        <li><b>探索（文件夹）</b>：旅程、待办圈、打卡搭子、计划搭子、宠物、表盘工坊（第 18–20 章）。</li>
+        <li><b>百宝袋（文件夹）</b>：健康、进度条、倍刻环、记账、心情、收集单、复盘、活动、快捷指令中心等（第 10–17、21 章）。</li>
+        <li><b>我的</b>：账号、会员、通知中心与全部设置（第 24 章）。</li>
+      </ul>
+      <h3 class="sub-h">手把手：把常用模块放上主栏</h3>
+      <ol class="steps">
+        <li>点底栏最右侧 <b>我的</b>。</li>
+        <li>在「设置中心」里点 <b>外观与布局</b>（主题、待办视图、底栏导航、日历视图、图标都在这一类）。</li>
+        <li>点 <b>底栏导航</b> 进入设置页。</li>
+        <li>拉到 <b>底栏设置</b> 区：勾选决定哪些栏目显示，按住左侧 ≡ 拖动排序。<b>底栏最多直接显示 7 个栏目</b>，多出来的可新建自定义文件夹归类收纳；「我的」固定在最后，保证设置入口始终可达。</li>
+        <li>同一页还能选<b>导航栏形态</b>：「悬浮胶囊」（全机型，经典底栏 + 文件夹收纳）或「苹果原生」（iOS 26+，液态玻璃 Tab Bar + 中控台）。</li>
+        <li>返回即生效——底栏布局完全随你的习惯来。</li>
+      </ol>
+      <div class="tip">开启「悬浮胶囊也启用中控台」后，<b>长按底栏「我的」</b>即可唤出中控台快速切页。</div>
+      <div class="tip">iOS 26 及以上还可以体验苹果原生的液态玻璃 Tab Bar 形态，在设置里切换导航样式。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-stats.jpg" alt="主界面与胶囊底栏"><figcaption>主界面：底部胶囊导航六个槽位</figcaption></figure>
+      <figure class="shot"><img src="images/folder-bbd.jpg" alt="百宝袋文件夹"><figcaption>点开「百宝袋」：模块悬浮面板</figcaption></figure>
+      <figure class="shot"><img src="images/new-settings-nav.jpg" alt="底栏导航设置页"><figcaption>底栏导航设置页：导航形态二选一 + 底栏设置区</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 待办 ============ -->
+<section class="chapter" id="ch2">
+  <div class="ch-head"><span class="ch-num">02</span><h2>待办：新建 · 配置 · 手势 · 多视图</h2><span class="en">Todo</span><span class="home">入口：底栏「待办」</span></div>
+  <p class="ch-lead">待办是倍刻List 的心脏：一条待办从新建到完成，中间每个配置项都能玩出花。本章把「新增待办」表单<b>每一个字段</b>拆开讲透，配上真实截图。</p>
+
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">先认门：待办页长什么样</h3>
+      <ul class="points">
+        <li><b>顶部横幅</b>：「完成 37 / 150 项」实时进度条，打气用。</li>
+        <li><b>周视图横条</b>：一周七天的「已完成/总数」，点任意一天按天过滤。</li>
+        <li><b>类目筛选</b>：全部 / 工作 / 学习 / 生活… 横滑切换。</li>
+        <li><b>条目行</b>：圆圈打勾、旗标优先级、截止/提醒图标、行尾 ⋯ 菜单。</li>
+        <li><b>右下 ＋</b>：新建入口，本章的主角。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-todo-crowd.jpg" alt="待办列表"><figcaption>待办页：周视图 + 类目筛选 + 旗标提醒</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:34px">
+    <div class="txt">
+      <h3 class="sub-h">手把手：新建一条待办（最小路径 3 步）</h3>
+      <ol class="steps">
+        <li>点右下角粉色 <b>＋</b>，弹出「新增待办」表单（键盘自动弹起）。</li>
+        <li>写<b>待办内容</b>，例如「周五前交季度报表」。</li>
+        <li>点底部 <b>✓ 添加待办</b>——完事！其余配置全是可选。</li>
+      </ol>
+      <div class="tip">没填完想退出？直接下滑，App 会问「放弃修改 / 继续编辑」，内容不会误丢。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/todo-form.jpg" alt="新增待办表单全貌"><figcaption>「新增待办」表单全貌（键盘自动弹起）</figcaption></figure>
+    </div>
+  </div>
+
+  <h3 class="sub-h" style="margin-top:40px">表单逐项配置详解</h3>
+
+  <div class="cols" style="margin-top:14px">
+    <div class="txt">
+      <table class="fields">
+        <tr><th>① 待办内容</th><th>说明</th></tr>
+        <tr><td>干什么</td><td>任务标题，支持多行：第一行是标题，换行可以接着写细节</td></tr>
+        <tr><td>小细节</td><td>表单一打开键盘就自动弹起并聚焦这个输入框，不用先点一下</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>② 类目</th><th>说明</th></tr>
+        <tr><td>内置 5 类</td><td>📌 默认 / 💼 工作 / 📚 学习 / 🏠 生活 / 💪 健康，点按选择</td></tr>
+        <tr><td>自定义类目</td><td>点类目行末尾 <b>＋</b>：搜索式新增——先联想已有/历史类目，防止手滑建重复</td></tr>
+        <tr><td>删自定义类目</td><td>自定义类目右侧有 ✕；删除只删类目标签，已有待办不受影响，误删还能在「历史新增」里恢复</td></tr>
+        <tr><td>调整顺序</td><td>最右侧 ↕ 按钮进「类别排序」页，拖动重排，待办页筛选行同步生效</td></tr>
+      </table>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/todo-form-top.jpg" alt="待办内容与类目"><figcaption>① 待办内容（自动聚焦）＋ ② 类目行（5 内置 + ＋新增 + ↕排序）</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:28px">
+    <div class="txt">
+      <table class="fields">
+        <tr><th>③ 上级待办</th><th>说明</th></tr>
+        <tr><td>干什么</td><td>把这条挂到另一条待办下面，组成父子层级——「写年度总结」下挂「收集数据」「写初稿」「排版」</td></tr>
+        <tr><td>怎么配</td><td>点这一项弹出选择器，搜/选一条现有待办当爸爸；默认「不挂靠（顶层待办）」</td></tr>
+        <tr><td>注意</td><td>旅程产生的待办投影不挂层级（层级在旅程域没有承载，挂了会假保存）</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>④ 归属计划</th><th>说明</th></tr>
+        <tr><td>干什么</td><td>把待办挂到某个「计划」（第 05 章）下，完成后自动推进计划的步骤进度</td></tr>
+        <tr><td>怎么配</td><td>点选器里挑一个计划；还没建计划会提示「还没有计划」</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>⑤ 优先级</th><th>说明</th></tr>
+        <tr><td>三档</td><td>低 / 中 / 高；「高」在列表里带一面红色小旗，一眼识别</td></tr>
+        <tr><td>建议</td><td>一天最多 3 面红旗，多了等于没有优先级</td></tr>
+      </table>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/todo-form-mid.jpg" alt="上级待办 / 归属计划 / 优先级"><figcaption>③ 上级待办（默认顶层）＋ ④ 归属计划 ＋ ⑤ 优先级三档</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:28px">
+    <div class="txt">
+      <table class="fields">
+        <tr><th>⑥ 颜色</th><th>说明</th></tr>
+        <tr><td>干什么</td><td>给这条待办一个专属底色，列表里一眼分区</td></tr>
+        <tr><td>怎么配</td><td>默认 / 粉 / 紫 / 蓝 / 青 / 绿 / 黄 / 橙 / 红 9 个圆点，或点虚线「＋」自定义任意色</td></tr>
+        <tr><td>不透明度</td><td>颜色下方的滑杆（0–100%）：调低是淡淡的底色，调高是浓郁的色块</td></tr>
+      </table>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/todo-form-color.jpg" alt="颜色与不透明度"><figcaption>⑥ 颜色 9 色 + 自定义「＋」＋ 不透明度滑杆；底部是取消 / 添加待办</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:28px">
+    <div class="txt">
+      <table class="fields">
+        <tr><th>⑦ 截止与重复</th><th>说明</th></tr>
+        <tr><td>截止时间</td><td>打开开关，选日期 + 时间；列表里逾期自动标红「已逾期」</td></tr>
+        <tr><td>重复</td><td>设「每 N 天重复一次」：从创建日起每间隔 N 天再次出现，适合周期性任务</td></tr>
+        <tr><td>把后面的重复<br>也显示在日历里</td><td>开＝日历按重复规则铺出后续每一次（带 ⟳ 标记的只读预览）；关＝只在到期日当天显示</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>⑧ 提醒</th><th>说明</th></tr>
+        <tr><td>表单内</td><td>开「提醒」开关，选到点通知的时间</td></tr>
+        <tr><td>列表快捷</td><td>行内铃铛不用进表单：一键「1 小时后 / 今晚 20:00 / 与截止同时」</td></tr>
+        <tr><td>双保险</td><td>可「写入苹果提醒事项」，到点由系统提醒再兜一层</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>⑨ 番茄联动</th><th>说明</th></tr>
+        <tr><td>不联动</td><td>默认，纯任务不管专注</td></tr>
+        <tr><td>联动（正计时）</td><td>从 0 往上计、手动结束；不会因计时自动完成待办，需手动勾选</td></tr>
+        <tr><td>专注满目标自动完成</td><td>配「目标专注 N 分钟」；倒计时模式下本轮时长按目标分钟、到点响铃，累计满目标自动勾掉待办</td></tr>
+      </table>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-todo-detail.jpg" alt="待办详情卡"><figcaption>详情卡：分类 / 优先级 / 截止 / 重复 / 提醒 + 完成情况统计（日/周/月），还能一键「设置待办进度条」「创建收集单」，底部「标为已完成 / 编辑」</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top:28px">
+    <div class="txt">
+      <table class="fields">
+        <tr><th>⑩ 备注 / 照片 / 附件</th><th>说明</th></tr>
+        <tr><td>备注</td><td>「补充一些细节…」多行文本，链接、地址、注意事项随便写</td></tr>
+        <tr><td>照片</td><td>最多 3 张；保存在本机并同步到你自己的 iCloud</td></tr>
+        <tr><td>文件附件</td><td>仅保留在本机，不会上传云端</td></tr>
+      </table>
+      <table class="fields" style="margin-top:16px">
+        <tr><th>⑪ 协作口径</th><th>说明（挂到共享计划时出现）</th></tr>
+        <tr><td>全员共享一套</td><td>这里的修改会同步给计划的所有成员</td></tr>
+        <tr><td>每人一套</td><td>勾选完成只记录你自己的进度，不影响其他成员</td></tr>
+        <tr><td>房主只读</td><td>房主开启只读时：不可修改、不可勾选完成，但可从你的列表移除并撤回</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="sub-h" style="margin-top:40px">建好后去哪看：截止 · 重复 · 日历联动实拍</h3>
+  <p class="ch-lead">以最常用的「设截止 + 每天重复 + 铺进日历」为例，完整走一遍：</p>
+  <div class="cols" style="margin-top:14px">
+    <div class="txt">
+      <ol class="steps">
+        <li>新建待办写上「每天喝水 2L」，打开<b>截止时间</b>开关，选「2026 年 9 月 27 日 · 09:00」。</li>
+        <li>重复规则点选<b>每天</b>（也可选每周 / 每月）。</li>
+        <li>关键开关：<b>把后面的重复也显示在日历里</b>——开＝日历按重复规则铺出后续每一次（带 ⟳ 标记，只读预览）；关＝只在到期日当天显示。</li>
+        <li>点<b>添加</b>保存。</li>
+        <li>回到待办列表：条目上直接带 <b>「每天」重复徽章</b> 和到期时间。</li>
+        <li>打开日历：月历格子里出现<b>白色方点 = 重复待办</b>，后续每一天都铺开显示；图例在月历下方（圆点＝日程、胶囊＝多天、方点＝待办、白方点＝重复待办）。</li>
+        <li>月历下方「<b>接下来 3 天</b>」面板汇总当天日程 / 计划 / 习惯 / 待办条数，点 ＋ 可直接往当天加内容。</li>
+      </ol>
+      <div class="tip">后续铺出来的重复实例是<b>只读预览</b>：提醒你别漏，但完成动作只能点在「源实例」（到期日当天那条）上。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-todo-quick-repeat.jpg" alt="设截止与重复"><figcaption>设截止 09:00 + 重复「每天」+ 铺进日历开关（附完整说明）</figcaption></figure>
+      <figure class="shot"><img src="images/new-calendar-repeat.jpg" alt="重复待办铺进日历"><figcaption>日历月历：重复待办逐日铺开，底部图例四种标记</figcaption></figure>
+      <figure class="shot"><img src="images/new-todo-crowd.jpg" alt="列表重复徽章"><figcaption>待办列表：每条带「每天 / 每周 / 每月 / 每 3 天」重复徽章</figcaption></figure>
+    </div>
+  </div>
+
+  <h3 class="sub-h" style="margin-top:40px">视图与完成样式：待办页的「装修间」</h3>
+  <div class="cols" style="margin-top:14px">
+    <div class="txt">
+      <ol class="steps">
+        <li>入口：<b>我的 → 设置中心 → 外观与布局 → 待办视图</b>。</li>
+        <li><b>勾选视图</b>：今天 / 最近 7 天 / 四象限 / 看板——勾选后待办页顶部多出对应页签，装不下可左右滑动；「列表」是基础视图恒开启。</li>
+        <li><b>调整顺序</b>：拖动 ≡ 手柄或点右侧上下箭头，序号即时更新。</li>
+        <li><b>完成样式</b>：标准（默认不打删除线）；删除线 / 强淡化 / 收缩淡化为 Pro 会员样式。</li>
+      </ol>
+      <table class="fields" style="margin-top:14px">
+        <tr><th>视图</th><th>干什么</th></tr>
+        <tr><td>今天</td><td>只看今天要做的与今天完成的</td></tr>
+        <tr><td>最近 7 天</td><td>按天分组看接下来一周的安排</td></tr>
+        <tr><td>四象限</td><td>按重要 / 紧急拆成四格，先做哪件不再纠结</td></tr>
+        <tr><td>看板</td><td>按类目分列浏览，竖列优先，区域不够再横向展开</td></tr>
+      </table>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/todo-view-settings.jpg" alt="待办视图设置"><figcaption>待办视图设置：视图勾选排序 + 完成样式（Pro）</figcaption></figure>
+    </div>
+  </div>
+
+  <h3 class="sub-h" style="margin-top:40px">列表里的日常操作</h3>
+  <div class="cols" style="margin-top:14px">
+    <div class="txt">
+      <ul class="points">
+        <li><b>完成</b>：点行首圆圈打勾；完成样式按上节设置渲染。</li>
+        <li><b>看详情</b>：点条目文字弹详情卡，底部一键「标为已完成 / 编辑」。</li>
+        <li><b>快速提醒</b>：行内铃铛「1 小时后 / 今晚 20:00 / 与截止同时」。</li>
+        <li><b>编辑 / 删除</b>：详情卡点「编辑」，或行尾 ⋯ 菜单删除。</li>
+        <li><b>批量处理</b>：开「单选」模式逐条勾选，批量完成 / 清理。</li>
+        <li><b>临时切换视图</b>：筛选行最右侧的视图图标（▦）点开出下拉即换；长期显隐与顺序在「我的 → 外观与布局 → 待办视图」里调。</li>
+        <li><b>时间线</b>：按「添加于 / 到期」时间轴浏览，滑过来点确认。</li>
+        <li><b>关系图</b>：父子层级画成图谱，拖动高亮、双指缩放。</li>
+        <li><b>导出手帐</b>：今天 / 本周 / 全部范围 + 已完成 / 未完成过滤 + 夜幕 / 奶油主题，生成长图分享。</li>
+      </ul>
+      <div class="tip">待办是枢纽：挂「进度条」自动汇总完成度（第 11 章）；开番茄联动让专注自动打勾（第 03 章）；挂计划计入 OKR 进度（第 05 章）。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 番茄钟 ============ -->
+<section class="chapter" id="ch3">
+  <div class="ch-head"><span class="ch-num">03</span><h2>番茄钟：专注与科目</h2><span class="en">Pomodoro</span><span class="home">入口：底栏「效率」文件夹</span></div>
+  <p class="ch-lead">经典番茄工作法：专注 25 分钟，休息一下，再出发。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：开始一次专注</h3>
+      <ol class="steps">
+        <li>选择模式：<b>🍅 专注 / 🍵 小憩 / 🛌 长休</b>。</li>
+        <li>（可选）点「🔗 关联一个待办」，这段专注就记到那条待办头上。</li>
+        <li>（可选）点「📚 选择科目」，按科目统计学习时长。</li>
+        <li>点中央大圆环下方的 <b>▶</b> 开始；左键重置、右键跳过本段。</li>
+        <li>到点自动提醒进入休息，完成时有庆祝动效。</li>
+      </ol>
+      <h3 class="sub-h">逐项配置详解</h3>
+      <table class="fields">
+        <tr><th>配置</th><th>说明</th></tr>
+        <tr><td>关联待办</td><td>点开始前的「🔗 关联一个待办」，这段专注记到那条待办头上；配合待办「番茄联动」可满目标自动打勾（第 02 章 ⑨）</td></tr>
+        <tr><td>关联习惯</td><td>关联一个习惯，专注满目标自动打卡（第 06 章）</td></tr>
+        <tr><td>选择科目</td><td>按科目统计学习时长；科目支持新建 / 子科目 / 图标 emoji / 配图（如「数据结构」）</td></tr>
+        <tr><td>智能时长</td><td>按关联待办 / 习惯的番茄目标、科目默认时长、所属类目自动配倒计时；什么都没关联时按全局专注时长走</td></tr>
+        <tr><td>时长设置</td><td>页面底部「时长设置（分钟）」手动调；智能时长基础上还能「微调」</td></tr>
+        <tr><td>计时环样式</td><td>经典圆环外还有黏土农场、雨夜便利店等主题；<b>仅「墨笔」计时环与「星光爆散」到点特效免费</b>，其余为 Pro 专属；特效缩放非会员固定「标准」</td></tr>
+        <tr><td>白噪音</td><td>内置白噪音 + 「下载更多」（Pixabay 免费音效）+ 导入本地音频（mp3 / m4a / wav）</td></tr>
+        <tr><td>背景图</td><td>可换计时背景；有背景图时遮罩最低 35% 保证读时清晰；删除自定义背景只移除本机文件，不影响内置背景</td></tr>
+        <tr><td>同步到系统日历</td><td>开启后专注完成，整段时间记入系统日历（需授予日历权限，未授予会提示去系统设置）</td></tr>
+        <tr><td>横屏 StandBy</td><td>充电横放进入床头钟模式</td></tr>
+      </table>
+      <h3 class="sub-h">专注完成时怎么记</h3>
+      <ol class="steps">
+        <li>到点响铃，弹出「<b>专注 N 分钟，选择怎么记录这段时间</b>」。</li>
+        <li>选 <b>✅ 算进专注时间</b> 计入统计；也可选「提前结束」按实际时长记。</li>
+        <li>如果开了「同步到系统日历」，这段时间同时写进系统日历。</li>
+      </ol>
+      <div class="tip">「小课堂自习」：从待办圈的课堂进入自习，坐下即开始——「已就坐，开始就是自习」，中途还会提示「专心中… 别偷看手机哦」。</div>
+      <h3 class="sub-h">记录页：查看与补记</h3>
+      <ul class="points">
+        <li>顶部切到 <b>📋 记录</b>：今日 / 本周 / 累计分钟数 + 专注分布（类别 / 待办 / 科目三维度）。</li>
+        <li>点任意一条记录可<b>编辑</b>：修改状态（完成 / 提前结束 / 中途放弃）、拖时长滑杆、改类别归属；漏记的也能补。</li>
+        <li>支持<b>导出专注报告</b>。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-pomodoro.jpg" alt="番茄钟计时页"><figcaption>计时页：25:00 准备就绪</figcaption></figure>
+      <figure class="shot"><img src="images/pomo-history.jpg" alt="番茄钟记录页"><figcaption>记录页：今日 / 本周 / 累计 + 专注分布</figcaption></figure>
+      <figure class="shot"><img src="images/pomo-edit.jpg" alt="编辑专注记录"><figcaption>编辑记录：状态 / 时长 / 类别都能改</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 日历 ============ -->
+<section class="chapter" id="ch4">
+  <div class="ch-head"><span class="ch-num">04</span><h2>日历：月历与日视图</h2><span class="en">Calendar</span><span class="home">入口：底栏「效率」文件夹</span></div>
+  <p class="ch-lead">日历把日程、计划、待办、倒数日放进同一张月历（带农历）。某天有多少事，不用点进去就知道。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">读月历</h3>
+      <ul class="points">
+        <li>每个格子直接显示当日<b>日程 / 计划 / 待办</b>条目，放不下折叠为「+N」。</li>
+        <li>日期左上角是<b>农历</b>；今天高亮圆圈。</li>
+        <li><b>倒数日</b>跨天时画成连续色条，目标日自动高亮。</li>
+        <li>右上角可切换月历密度（放大 / 紧凑）与议程样式。</li>
+        <li><b>格子里的标记</b>：圆点＝日程、长胶囊＝跨多天事项、方点＝待办、<b>白色方点＝重复待办的铺开预览</b>。</li>
+        <li>月历下方「<b>接下来 3 天</b>」面板：按天汇总日程 / 计划 / 习惯 / 待办，右侧 ＋ 直接往当天加。</li>
+      </ul>
+      <h3 class="sub-h">手把手：安排某一天</h3>
+      <ol class="steps">
+        <li>点月历上的任意日期，展开<b>日视图</b>面板。</li>
+        <li>顶部是当日<b>日程</b>，右侧 ✏️ 编辑、🗑 删除。</li>
+        <li>「到期待办 X/Y」里的待办可以<b>直接点方框勾选</b>完成，不用切页。</li>
+        <li>底部三个按钮：<b>添加日程</b>、<b>添加待办</b>、<b>旅程</b>（把行程段排到这天）。</li>
+        <li>点「收起」或下滑关闭面板。</li>
+      </ol>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-calendar-repeat.jpg" alt="月历视图"><figcaption>月历：日程 / 计划 / 待办 / 倒数日同屏</figcaption></figure>
+      <figure class="shot"><img src="images/new-cal-day.jpg" alt="日视图"><figcaption>日视图（今天）：日程 + 到期待办直接勾选 + 添加日程 / 待办 / 旅程三按钮</figcaption></figure>
+      <figure class="shot"><img src="images/cal-countdown.jpg" alt="倒数日连条"><figcaption>倒数日区间连条：起止一目了然</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 计划 ============ -->
+<section class="chapter" id="ch5">
+  <div class="ch-head"><span class="ch-num">05</span><h2>计划：OKR 目标管理</h2><span class="en">Plan</span><span class="home">入口：底栏「效率」文件夹</span></div>
+  <p class="ch-lead">计划模块用 OKR 思路管目标：定一个计划（O），拆成若干步骤作为关键结果（KR），按步骤推进，完成率自动算。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：建一个计划</h3>
+      <ol class="steps">
+        <li>计划页点右下角 <b>＋</b>，打开新建计划表单。</li>
+        <li>填<b>计划名称</b>，例如「学会弹尤克里里」。</li>
+        <li>选<b>分类、优先级、周期</b>（季度 / 年度）。</li>
+        <li>逐条添加<b>步骤</b>——它们会作为关键结果展示在卡片上。</li>
+        <li>（可选）<b>关联待办</b>：把执行层面的待办挂进来。</li>
+        <li>保存后回到列表，卡片上实时显示进度；点步骤即可逐条勾掉。</li>
+      </ol>
+      <h3 class="sub-h">表单逐项配置详解</h3>
+      <table class="fields">
+        <tr><th>字段</th><th>说明</th></tr>
+        <tr><td>计划名称</td><td>表单顶部输入框，提示语「例如：学会弹尤克里里」</td></tr>
+        <tr><td>上级计划</td><td>计划可以套计划，组成目标树——大目标下挂子计划</td></tr>
+        <tr><td>分类 / 优先级</td><td>与待办同套类目体系；优先级影响排序</td></tr>
+        <tr><td>周期</td><td>季度 / 年度，到期自动统计</td></tr>
+        <tr><td>步骤</td><td>逐条添加，将作为关键结果展示在卡片上，逐条勾掉推进进度</td></tr>
+        <tr><td>关联待办</td><td>把执行层的待办挂进来，待办完成度反哺计划进度</td></tr>
+        <tr><td>量化进度设置</td><td>给计划配数字化目标量（如 30 次 / 100 页）</td></tr>
+        <tr><td>进度条样式</td><td>卡片上的进度视觉，标注「该进度条样式为会员专属，开通 Pro 后即可在计划卡片与录入弹窗使用」</td></tr>
+        <tr><td>粗细 / 动效</td><td>全局设置，对所有计划生效</td></tr>
+        <tr><td>备注（可选）</td><td>写背景、动机、注意事项</td></tr>
+      </table>
+      <div class="tip">关闭表单时若有未保存修改，会弹「放弃修改 / 继续编辑」确认，不丢草稿。</div>
+      <h3 class="sub-h">更多</h3>
+      <ul class="points">
+        <li><b>聚焦视图</b>：只看当前最重要的事，减少干扰。</li>
+        <li><b>多维筛选</b>：全部 / 未开始 / 进行中 / 已完成 / 已逾期，按时间与状态过滤。</li>
+        <li><b>导出</b>：计划进展可生成分享图。</li>
+      </ul>
+      <div class="tip">计划会自动出现在「进度条」模块的来源里，也能挂到桌面「计划」小组件上随手推进。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-plan.jpg" alt="计划页"><figcaption>计划页：总览 / 聚焦 / 周期看板 / 时间线 / 矩阵多视图，周月季年 OKR 周期筛选</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 习惯 ============ -->
+<section class="chapter" id="ch6">
+  <div class="ch-head"><span class="ch-num">06</span><h2>习惯：打卡与连击</h2><span class="en">Habit</span><span class="home">入口：底栏「探索」文件夹</span></div>
+  <p class="ch-lead">习惯模块把「每天坚持一下」变成看得见的连击：连击天数、最长纪录、近 30 天完成率、翻面热力图。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：建一个习惯</h3>
+      <ol class="steps">
+        <li>习惯页点 <b>＋</b> 打开新建表单。</li>
+        <li>填<b>习惯名称</b>，例如「每天喝够 8 杯水」。</li>
+        <li>选<b>图标</b>：内置 emoji 库，或自己输入一个 emoji / 文字。</li>
+        <li>设<b>打卡周期</b>：每天 / 每 N 天（如每 3 天 = 第 1、4、7…天）/ 每周自定义。</li>
+        <li>（可选）设<b>每日打卡时段</b>：早 / 中 / 晚逐项打卡，时段名可自定义，全部打完即当日达标。</li>
+        <li>（可选）开<b>番茄联动</b>：专注满目标分钟数自动打卡，学习类习惯特别合适。</li>
+        <li>保存。之后每天到点：<b>点习惯卡片 → 打卡面板</b>（顶部显示「今天 · 日期 · 周几」）→ 按时段逐项点<b>打卡</b>，全部打完显示「已达标」。</li>
+      </ol>
+      <h3 class="sub-h">表单逐项配置详解</h3>
+      <table class="fields">
+        <tr><th>字段</th><th>说明</th></tr>
+        <tr><td>习惯名称</td><td>提示语「例如：每天喝够 8 杯水」</td></tr>
+        <tr><td>图标</td><td>内置 emoji 图标库点选，或「输入自定义 emoji / 文字」</td></tr>
+        <tr><td>打卡周期</td><td><b>每天</b> / <b>每 N 天</b>（从创建日起每间隔对应天数为应打卡日，例如「每 3 天」= 第 1、4、7…天）/ <b>每周自定义</b>（指定周几）</td></tr>
+        <tr><td>每日打卡时段</td><td>按时段打卡：每天按 早 / 中 / 晚 逐项打卡，时段名称回车即可自定义（如「睡前」），全部打完即当日达标</td></tr>
+        <tr><td>每日打卡次数</td><td>一天打几次才算达标（与时段制二选一）</td></tr>
+        <tr><td>关联科目</td><td>纳入番茄钟的科目统计；「不关联（不纳入科目统计）」</td></tr>
+        <tr><td>番茄联动</td><td>专注满目标自动打卡，配「目标专注 N 分钟」；学习类习惯的自动化神器</td></tr>
+        <tr><td>热力图显示范围</td><td>一周到一年自由调节（按周数），只影响这个习惯的翻面热力图与导出</td></tr>
+      </table>
+      <h3 class="sub-h">打卡面板里的操作</h3>
+      <ul class="points">
+        <li>点错打卡？<b>撤销一次</b>回退；<b>打卡日志</b>查看历史每一次。</li>
+        <li>卡片长按 / 详情里可<b>置顶</b>重要习惯、<b>编辑</b>参数。</li>
+        <li>忘了打卡用<b>补卡</b>补记过去的日期。</li>
+        <li>删除习惯会<b>移入回收站</b>（不是真删），可在「我的 → 回收站」随时恢复。</li>
+        <li>打卡记录支持导出「<b>我的习惯册</b>」：总打卡、最佳连续、近 N 周热力，分页生成分享图。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-habit.jpg" alt="习惯打卡页"><figcaption>习惯打卡页：每周打卡条 + 连续天数 + 每日 N 次进度环</figcaption></figure>
+      <figure class="shot wide"><img src="images/widget-habit.jpg" alt="习惯小组件"><figcaption>桌面上也有习惯组件：一屏打完今天的卡（详见第 22 章）</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 倒数日 ============ -->
+<section class="chapter" id="ch7">
+  <div class="ch-head"><span class="ch-num">07</span><h2>倒数日：公历农历都能记</h2><span class="en">Countdown</span><span class="home">入口：底栏「效率」文件夹</span></div>
+  <p class="ch-lead">生日、纪念日、考试、旅行——倒数日帮你数着日子过。支持公历与农历双录入，也能正数「已经多少天」。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：建一个倒数日</h3>
+      <ol class="steps">
+        <li>倒数日页点 <b>＋</b> 打开表单。</li>
+        <li>填<b>事件名称</b>，例如「生日派对」。</li>
+        <li>选目标日期。过农历生日？切换到<b>农历</b>录入，直接点「农历生日」等预设，自动按每年农历重复。</li>
+        <li>设<b>重复</b>：不重复 / 每周 / 每月 / 每年 / 农历年。</li>
+        <li>（可选）开<b>提醒</b>、<b>置顶</b>、换<b>皮肤</b>与颜色。</li>
+        <li>保存后，它同时出现在倒数日列表和日历月历上（目标日高亮）。</li>
+      </ol>
+      <h3 class="sub-h">表单逐项配置详解</h3>
+      <table class="fields">
+        <tr><th>字段</th><th>说明</th></tr>
+        <tr><td>事件名称</td><td>提示语「例如：生日派对」</td></tr>
+        <tr><td>目标日期</td><td><b>公历 / 农历</b> 双录入：农历模式下按「农历月 / 农历日」选（如八月初一），点预设（农历生日等）自动填名 + 切农历 + 每年农历重复</td></tr>
+        <tr><td>重复</td><td>不重复 / 每周 / 每月 / 每年 / 农历年</td></tr>
+        <tr><td>开始时间</td><td>开启后按「开始时刻 → 目标日」计算进度百分比；开始时间晚于目标日期时会自动帮你交换两者</td></tr>
+        <tr><td>提醒</td><td>可设「当天 09:00」等到点通知</td></tr>
+        <tr><td>里程碑节点</td><td>「加一个节点」：在长周期里插关键节点（一轮结束 / 二轮结束…），孕期（孕早期 / 孕中期结束）、备考（冲刺）等场景都有预设</td></tr>
+        <tr><td>卡片背景 / 皮肤</td><td>换卡片视觉；可设「全局默认皮肤」，部分为 Pro 专属</td></tr>
+        <tr><td>置顶 / 隐藏</td><td>置顶钉在列表最前；眼睛图标隐藏天数（截图不剧透）</td></tr>
+        <tr><td>天数格式</td><td>天 / 天时分秒 / 已经 N 天 / 下次 + 第 N 次等呈现口径</td></tr>
+      </table>
+      <h3 class="sub-h">列表页小技巧</h3>
+      <ul class="points">
+        <li><b>筛选</b>：全部 / 进行中 / 临近 / 已过 / 置顶，多维切换。</li>
+        <li><b>隐私眼睛</b>：点 👁 隐藏天数，截图分享不剧透。</li>
+        <li><b>里程碑</b>：能看到「第 N 天 / 第 N 轮」等节点。</li>
+        <li><b>导出倒数图</b>：长按卡片或点分享 →「导出倒计时卡片」→ 等预览生成 → 直接分享给小伙伴。「期待的日子，一秒一秒靠近」「就是今天！」「已过去 N 天」等文案自动适配，还能进裁切器换背景图。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-countdown.jpg" alt="倒数日列表"><figcaption>倒数日列表：天 / 时 / 分实时倒数 + 期待已走过 % + 卡片操作</figcaption></figure>
+      <figure class="shot"><img src="images/cal-countdown.jpg" alt="倒数日在日历上"><figcaption>倒数日自动上日历：区间连条 + 目标日高亮</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 备忘录 ============ -->
+<section class="chapter" id="ch8">
+  <div class="ch-head"><span class="ch-num">08</span><h2>备忘录：会打勾的笔记</h2><span class="en">Note</span><span class="home">入口：底栏「探索」文件夹</span></div>
+  <p class="ch-lead">备忘录支持图文混排、可打勾清单、表格与引用。阅读模式干净整洁，点「编辑」进入编辑模式随手修改。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：记一篇笔记</h3>
+      <ol class="steps">
+        <li>备忘录页点 <b>＋</b> 新建。</li>
+        <li>输入标题和正文；工具栏可插入<b>清单</b>（阅读模式下也能直接打勾）、<b>表格</b>、<b>引用块</b>。</li>
+        <li>重要的笔记点 <b>📌 置顶</b>，钉在列表最上面。</li>
+        <li>左上角「编辑 / 完成」切换阅读与编辑模式。</li>
+      </ol>
+      <div class="tip">购物清单、打包清单这类「边做边勾」的场景，用清单语法最顺手；价格对比用表格。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-note.jpg" alt="备忘录列表"><figcaption>列表：搜索 / 置顶 / 最近更新排序 + 右下 ＋ 新建</figcaption></figure>
+      <figure class="shot"><img src="images/note-reader.jpg" alt="备忘录阅读模式"><figcaption>阅读模式：清单 + 表格 + 引用 + 置顶</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 统计 ============ -->
+<section class="chapter" id="ch9">
+  <div class="ch-head"><span class="ch-num">09</span><h2>统计：看懂你的坚持</h2><span class="en">Stats</span><span class="home">入口：底栏「统计」</span></div>
+  <p class="ch-lead">统计页是 App 首页，把各模块的努力汇总成报表——待办完成率、专注时长、计划进度、倒数、日历，一屏尽览。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">怎么读这张报表</h3>
+      <ul class="points">
+        <li><b>总体报表</b>：12 格核心指标（待办总数 / 完成率 / 今日专注 / 计划完成率 / OKR 关键结果 / 已逾期 / 累计完成 / 最佳类目…），<b>点任意数字下钻明细</b>。</li>
+        <li><b>本周环比</b>：本周 vs 上周的待办完成数与专注时长。</li>
+        <li><b>分类页签</b>：总体 / 待办 / 专注 / 计划 / 日历 / 倒数；点「全部」展开全部维度。</li>
+      </ul>
+      <h3 class="sub-h">手把手：自定义页首座右铭</h3>
+      <ol class="steps">
+        <li>点统计页右上角 <b>🔧 工具箱</b>。</li>
+        <li>选<b>自定义座右铭</b>，写一句给自己的话（支持手写签名体）。</li>
+        <li>回到统计页，顶部就是你的专属标语了。</li>
+      </ol>
+      <ul class="points">
+        <li><b>分享</b>：右上角分享按钮，把报表生成图片发给朋友。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/stats-motto.jpg" alt="统计页与自定义座右铭"><figcaption>统计主页：总体报表 + 本周环比 + 自定义座右铭</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 健康 ============ -->
+<section class="chapter" id="ch10">
+  <div class="ch-head"><span class="ch-num">10</span><h2>健康：睡眠运动与补记</h2><span class="en">Health</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">健康模块聚合睡眠与运动（接入苹果健康，只读），看看它们和日程怎么互相影响。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">页面里有什么</h3>
+      <ul class="points">
+        <li><b>睡眠卡片</b>：入睡 / 起床时间、时长与效率评分。</li>
+        <li><b>健康评价</b>：按 7–9 小时睡眠、WHO 每周 150–300 分钟运动等推荐给出参考评价（仅供参考，不构成医疗建议）。</li>
+        <li><b>运动网格</b>：骑行、跑步、步行、游泳、瑜伽、力量、跳绳、HIIT 等 16 类运动。</li>
+        <li><b>日 / 周 / 月</b>：三种维度切换，顶部箭头翻日期。</li>
+        <li><b>番茄钟联动</b>：点一项运动直接跳去番茄钟计时，运动时长自动关联。</li>
+      </ul>
+      <h3 class="sub-h">手把手：补记一次运动</h3>
+      <ol class="steps">
+        <li>拉到页面底部「✍️ 手动补记」，点 <b>🏃 补记运动</b>（睡眠同理，点 🌙 补记睡眠）。</li>
+        <li>在弹层里选运动类型，例如「跑步」。</li>
+        <li>选好<b>开始时间</b>与时长。</li>
+        <li>点 <b>保存</b>——记录只保存在本机，不回写苹果健康，与同步来的记录同席展示。</li>
+      </ol>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-health.jpg" alt="健康首次开启"><figcaption>首次开启：只读取不写入 / 数据不出本机 / 可手动补记，三条承诺讲清楚</figcaption></figure>
+      <figure class="shot"><img src="images/health-day.jpg" alt="健康日视图"><figcaption>授权后的日视图：睡眠 + 评价 + 运动</figcaption></figure>
+      <figure class="shot"><img src="images/health-manual.jpg" alt="补记运动"><figcaption>补记运动：16 种类型，只存本机</figcaption></figure>
+      <figure class="shot"><img src="images/health-week.jpg" alt="健康周视图"><figcaption>周视图：一周趋势尽收眼底</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 进度条 ============ -->
+<section class="chapter" id="ch11">
+  <div class="ch-head"><span class="ch-num">11</span><h2>进度条：全目标一屏推进</h2><span class="en">Progress</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">把计划、待办、习惯、日历事件甚至手动目标，全部挂到统一的进度条上。顶部「加权总进度」环告诉你：所有目标加起来推进到哪了。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：新建一条进度条</h3>
+      <ol class="steps">
+        <li>进度条页点右下角 <b>＋</b>（空态时页面中间也有「＋ 新建第一条进度条」按钮）打开「新建进度条」。</li>
+        <li>填<b>名称</b>、选一个<b>图标</b>。</li>
+        <li>选<b>数据来源</b>：手动 / 计划 / 待办 / 习惯 / 日历——挂源后进度自动推进，无需手录。</li>
+        <li>选「手动」时设<b>目标量</b>与<b>单位</b>（页 / 元 / km…），自己录入。</li>
+        <li>挑<b>皮肤</b>与<b>颜色</b>：经典免费，刻度 / 珠链等 10 款特效为 Pro 专属。</li>
+        <li>点 <b>保存</b>，新进度条出现在主页分组里。</li>
+      </ol>
+      <h3 class="sub-h">主页与统计</h3>
+      <ul class="points">
+        <li><b>主页</b>：按来源分组展示所有在跑进度；「粗细」三档可调，「动效」开关随你。</li>
+        <li><b>免费额度</b>：免费版 20 条，升级 Pro 无上限。</li>
+        <li><b>多维统计</b>：点页头进入统计页——在跑 / 已完成 / 逾期 / 停滞 7 天+、每日推进柱图、来源分布，点数字下钻清单。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-progress.jpg" alt="进度条空态"><figcaption>首次打开：空态引导「立一个手动目标，或把计划 / 待办 / 习惯挂上来」</figcaption></figure>
+      <figure class="shot"><img src="images/progress-form.jpg" alt="新建进度条"><figcaption>新建进度条：来源五选一，挂源自动推进</figcaption></figure>
+      <figure class="shot"><img src="images/progress-home.jpg" alt="进度条主页"><figcaption>主页：加权总进度 + 分组列表</figcaption></figure>
+      <figure class="shot"><img src="images/progress-stats.jpg" alt="进度条统计"><figcaption>多维统计：每日推进 + 来源分布</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 倍刻环 ============ -->
+<section class="chapter" id="ch12">
+  <div class="ch-head"><span class="ch-num">12</span><h2>倍刻环：摸摸 24 小时</h2><span class="en">Time Ring</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">倍刻环把一天画成一个 24 小时时间环：内环 1–12 点、外环 13–24 点。每一次专注都会点亮环上的一段弧——你的时间去哪了，一眼就看见了。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">怎么读这个环</h3>
+      <ul class="points">
+        <li><b>彩色弧段</b> = 各时段的专注记录；圆心显示今日专注总时长、次数与点亮小时数。</li>
+        <li><b>四种视图</b>：倍刻环 / 双列轴 / 维度 / 周环——从一天看到一周。</li>
+        <li><b>筛选</b>：全部 / 科目 / 待办 / 习惯，只看你想看的轨迹。</li>
+        <li><b>时段明细</b>：环下方逐条列出每段专注：什么事、几点到几点、多长。</li>
+        <li><b>日期切换</b>：顶部日期条回顾任意一天。</li>
+      </ul>
+      <h3 class="sub-h">换配色：环设色卡</h3>
+      <ul class="points">
+        <li>点右上角 <b>🎨</b> 打开色卡面板——只换配色，不动数据与布局。</li>
+        <li><b>科目本色</b>免费：每段弧跟随科目自己的颜色；糖果扁平 / 莫兰迪 / 孟菲斯 / 海洋 / 森林等主题为 Pro 专属。</li>
+      </ul>
+      <div class="tip">先用番茄钟积累几天记录再来看环，彩色的二十四小时会让你上瘾。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/timering.jpg" alt="倍刻环"><figcaption>有数据后：9 次专注点亮 10 个小时段</figcaption></figure>
+      <figure class="shot"><img src="images/new-timeRing.jpg" alt="倍刻环空态"><figcaption>空态会引导你：「这一天还空着 · 去番茄钟种一个 25 分钟吧」</figcaption></figure>
+      <figure class="shot"><img src="images/timering-colors.jpg" alt="环设色卡"><figcaption>环设色卡：科目本色免费，更多主题 Pro</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 记账 ============ -->
+<section class="chapter" id="ch13">
+  <div class="ch-head"><span class="ch-num">13</span><h2>记账：记一笔与隐私</h2><span class="en">Bill</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">记账模块是一本把隐私放在第一位的账本：账单流水、钱包、账本、分类、预算、周期账，默认全部只存在本机。第一次打开会有引导卡：「记一笔 · 3 秒完成 / 导入旧账单 / 设预算 / 数据去哪了」。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：记一笔账</h3>
+      <ol class="steps">
+        <li>记账页点右下角 <b>＋</b> 打开记账表单。</li>
+        <li>在数字键盘输入<b>金额</b>。</li>
+        <li>选<b>分类</b>（餐饮 / 交通 / 购物…）与<b>钱包 / 支付方式</b>（储蓄卡 / 信用卡 / 其他）。</li>
+        <li>（可选）填<b>优惠金额</b>、写一句<b>备注</b>、加 <b>#标签</b>、附<b>照片</b>。</li>
+        <li>（可选）<b>关联旅程 / 关联计划</b>：旅行花了多少、项目花了多少，自动归集。</li>
+        <li>点<b>保存</b>。删除某笔时在编辑页点「删除此账单」并确认。</li>
+      </ol>
+      <h3 class="sub-h">「记一笔」表单逐项配置详解</h3>
+      <table class="fields">
+        <tr><th>字段</th><th>说明</th></tr>
+        <tr><td>收支类型</td><td>支出 / 收入 / 转账；转账可填<b>手续费</b>（从转出钱包扣），手续费会额外生成一条支出流水并与本次转账关联</td></tr>
+        <tr><td>金额</td><td>专属数字键盘，输入即「快速记一笔」</td></tr>
+        <tr><td>分类</td><td>餐饮 / 交通 / 购物…；分类用完会提示去「账单设置 › 分类管理」添加</td></tr>
+        <tr><td>钱包 / 支付方式</td><td>储蓄卡 / 信用卡 / 微信支付 / 支付宝 / 其他，多钱包分开记</td></tr>
+        <tr><td>日期</td><td>默认今天，可选昨天或任意日期补记</td></tr>
+        <tr><td>优惠金额（可选）</td><td>实付与原价分开记，省了多少钱有据可查</td></tr>
+        <tr><td>备注</td><td>「写一句备注（可选）」</td></tr>
+        <tr><td>标签</td><td>#标签 归类，搜索时可按标签过滤</td></tr>
+        <tr><td>报销</td><td>标记为可报销，月底在报销视图一键汇总</td></tr>
+        <tr><td>不计收支</td><td>勾上后该笔只留流水、不计入收支统计（如账户间挪钱）</td></tr>
+        <tr><td>截图 / 小票</td><td>随这笔账单保存，<b>仅在本机</b></td></tr>
+        <tr><td>关联旅程 / 计划</td><td>归集到某次旅行或某个计划下，取消关联随时可点</td></tr>
+        <tr><td>更多选项</td><td>表单默认精简；「更多选项（日期 · 备注 · 支付方式 · 标签）›」点开全量字段</td></tr>
+        <tr><td>删除</td><td>「删除这笔账单？」确认后按回收站口径软删，不会影响其他数据</td></tr>
+        <tr><td>放弃</td><td>未保存就退出会问「放弃这笔记录？已输入的内容不会被保存」</td></tr>
+      </table>
+      <h3 class="sub-h">更多能力</h3>
+      <ul class="points">
+        <li><b>统计与预算</b>：分类洞察、月度统计、预算提醒（设预算：花得明白）。</li>
+        <li><b>日历视图</b>：按天看花了多少。</li>
+        <li><b>搜索</b>：按备注 / 分类 / 标签全文搜。</li>
+        <li><b>快捷模板</b>：常喝的咖啡存成模板，一键记。</li>
+        <li><b>导入旧账单</b>：支持微信 / 支付宝账单导入向导（含 OCR 识别），步骤见下方。</li>
+        <li><b>导出</b>：XLSX 表格导出，搬家不换本。</li>
+        <li><b>报销</b>：标记可报销账目，月底一键汇总。</li>
+        <li><b>多账本 / 多钱包</b>：不同场景分开记。</li>
+      </ul>
+      <h3 class="sub-h">手把手：导入微信 / 支付宝旧账单</h3>
+      <ol class="steps">
+        <li>微信导出：微信 →「我」→「服务」→「钱包」→「账单」→ 右上角「···」→「导出账单」，选 CSV 或 XLSX，发送到本机。<br>支付宝导出：支付宝 →「我的」→「账单」→ 右上角「···」→「开具交易流水证明」，选时间范围导出 CSV，发送到本机。</li>
+        <li>回到倍刻List 记账页 → 设置 → <b>导入</b>，选刚才的文件（CSV / XLSX 均可）。</li>
+        <li>点<b>开始解析</b>，向导自动识别流水；交易关闭 / 已退款的记录会被过滤并提示笔数。</li>
+        <li>逐批确认：与已有账单重复（同单号 / 同指纹）的可选「仍导入 ✓」或「全部跳过」。</li>
+        <li>完成后点「<b>去看看账单</b>」。导错了也不怕：导入记录可在「账单设置 › 导入」<b>整批撤销</b>。</li>
+      </ol>
+      <div class="warn">隐私三档自由选择：<b>纯本地</b>（默认，「账单仅保留在本机，不会上传云端」，换机前记得导出备份）→ <b>你的 iCloud</b>（随全量备份，官方接触不到）→ <b>官方云同步</b>（需阅读声明后手动开启，HTTPS 加密，随时可关）。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot mac"><img src="images/new-bill.jpg" alt="账单首页（Mac 版界面）"><figcaption>账单首页（iOS 最新版）：记一笔 / 导入旧账单 / 设预算 / 数据去哪了</figcaption></figure>
+      <figure class="shot"><img src="images/bill-sync.jpg" alt="账单云端同步声明"><figcaption>开启官方云同步前的完整声明（默认关闭）</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 心情 ============ -->
+<section class="chapter" id="ch14">
+  <div class="ch-head"><span class="ch-num">14</span><h2>心情：三秒钟打个卡</h2><span class="en">Mood</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：记一次心情</h3>
+      <ol class="steps">
+        <li>打开心情页，点 <b>记一笔</b>。</li>
+        <li>回答「<b>今天感觉怎么样？</b>」——在 emoji 行里点一个最像此刻的表情。</li>
+        <li>（可选）写<b>一句话</b>；想配图就点<b>拍照</b>或<b>从相册截取</b>。</li>
+        <li>保存，这条心情进入「当日记录」，可以补记「昨天」。</li>
+      </ol>
+      <div class="cols" style="margin-top:18px">
+        <div class="txt"><ul class="points">
+          <li>六个小青蛙表情对应不同心情档位，点一个再「记一笔」即可。</li>
+          <li>「邮票照片 · 会员专属」可给这条心情配图。</li>
+        </ul></div>
+      </div>
+      <div class="shots">
+        <figure class="shot"><img src="images/new-mood.jpg" alt="心情页"><figcaption>心情页：选表情 + 一句话 + 记一笔；统计与记录在下方</figcaption></figure>
+      </div>
+      <h3 class="sub-h">回看与分析</h3>
+      <ol class="steps">
+        <li>点顶部 <b>统计 / 分析</b> 进入分析页。</li>
+        <li>看<b>每日走势</b>曲线与<b>心情分布</b>——系统会告诉你「心情很平稳」还是「心情有些起伏」。</li>
+        <li>切到<b>本月</b>看「月心情格子」：每天一格色块，整月心情一目了然；还有均值与条数统计。</li>
+        <li>心情数据同时汇入「复盘」的心情维度（第 16 章）。</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15 收集单 ============ -->
+<section class="chapter" id="ch15">
+  <div class="ch-head"><span class="ch-num">15</span><h2>收集单：结构化收集信息</h2><span class="en">Collect</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">这是什么</h3>
+      <p class="ch-lead">为待办和旅程准备的结构化信息收集清单：旅行证件清单、采购清单、报名材料……做成模板反复用。</p>
+      <h3 class="sub-h">手把手：建一张收集单</h3>
+      <ol class="steps">
+        <li>打开收集单页，点右上角 <b>＋</b>。</li>
+        <li>三选一：<b>从模板建</b>（现成模板直接改）/ 空白自建 / <b>从剪贴板建单</b>——先去别处复制一段文本，回来 App 会弹「剪贴板里有文本，要识别成模板吗？」，点确认即自动生成字段（剪贴板文本只在本地识别，不会上传）。</li>
+        <li>在编辑页调整字段：改条目名、增删项、设置是否附图。</li>
+        <li>保存后点 <b>去填写</b>，逐项填报打勾；填完的单子可以关联到待办 / 旅程。</li>
+      </ol>
+      <div class="warn">删除收集单时字段与照片会一起删除、不可恢复，App 会先弹确认。</div>
+      <div class="shots" style="margin-top:18px">
+        <figure class="shot"><img src="images/new-collect.jpg" alt="收集单"><figcaption>收集单主页空态：从模板建 / 空白建，底部注明「仅保留在本机，不会上传云端」</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 复盘 ============ -->
+<section class="chapter" id="ch16">
+  <div class="ch-head"><span class="ch-num">16</span><h2>复盘：多维回望每一天</h2><span class="en">Review</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">复盘模块把任务、习惯、专注、睡眠、运动、心情六个维度的数据汇成一张「今日复盘」——回望来路，再出发。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">页面里有什么</h3>
+      <ul class="points">
+        <li><b>今日复盘分</b>：一个综合评分与等级（如「C 级 · 继续加油」），配上贴心提示（「先照顾好自己最重要」）。</li>
+        <li><b>四格速览</b>：任务 X/Y、专注时长、睡眠、习惯打卡。</li>
+        <li><b>六维能力雷达图</b>：任务 / 习惯 / 专注 / 睡眠 / 运动 / 心情，哪块短板一眼看见。</li>
+        <li><b>任务与计划 / 专注时刻 / 习惯打卡 / 入睡</b>：分维度明细往下拉。</li>
+      </ul>
+      <h3 class="sub-h">手把手：做一次晚复盘</h3>
+      <ol class="steps">
+        <li>打开复盘页，默认就是「<b>今日</b>」。</li>
+        <li>先看顶部复盘分与四格速览（任务 / 专注 / 睡眠 / 习惯），再看<b>六维能力雷达图</b>找短板。</li>
+        <li>往下拉，按「任务与计划 → 专注时刻 → 习惯打卡 → 入睡」逐项回顾。</li>
+        <li>想回看历史？点顶部箭头翻日期；切<b>本周 / 本月 / 自选</b>看更长周期（周、月与自选为 Pro 专属）。</li>
+        <li>翻过头了会提示「再早还没有数据哦」——从明天开始积累就好。</li>
+      </ol>
+    </div>
+    <div class="shots">
+      <figure class="shot mac"><img src="images/new-review.jpg" alt="复盘页（Mac 版界面）"><figcaption>复盘页（最新版）：今日复盘分 + 四格速览 + 六维能力雷达，周 / 月 / 自选带 Pro 锁</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17 活动 ============ -->
+<section class="chapter" id="ch17">
+  <div class="ch-head"><span class="ch-num">17</span><h2>活动：青蛙币激励</h2><span class="en">Activity</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">活动模块是倍刻List 的激励体系：完成任务攒<b>青蛙币</b>，存进一只看得见的小罐子。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">青蛙币怎么赚</h3>
+      <ul class="points">
+        <li><b>完成 1 个待办</b>：每日首次 +1 青蛙币。</li>
+        <li><b>打卡 1 个习惯</b>：每日首次 +1 青蛙币。</li>
+        <li><b>搭子打卡（空投）</b>：搭子每次打卡，空投 +1 青蛙币。</li>
+      </ul>
+      <div class="shots" style="margin-bottom:18px">
+        <figure class="shot"><img src="images/new-activity.jpg" alt="青蛙币罐"><figcaption>活动页实拍：玻璃罐 + 软木塞，今日任务三种赚币方式</figcaption></figure>
+      </div>
+      <h3 class="sub-h">手把手：玩转青蛙币罐</h3>
+      <ol class="steps">
+        <li>打开活动页，先完成「<b>今日任务</b>」清单里的事（完成待办、打卡习惯）——每完成一项，青蛙币「叮」地落进罐子。</li>
+        <li><b>倾斜手机</b>：罐里的币会跟着滚动，像真的一样。</li>
+        <li><b>摇一摇</b>手机：罐子有震动反馈，解压。</li>
+        <li>点<b>明细</b>：查每一枚币是哪件事赚来的。</li>
+        <li>攒够了去兑换<b>勋章</b>与小惊喜。</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 18 宠物 ============ -->
+<section class="chapter" id="ch18">
+  <div class="ch-head"><span class="ch-num">18</span><h2>宠物：养一只小可爱</h2><span class="en">Pet</span><span class="home">入口：底栏「探索」文件夹</span></div>
+  <div class="cols">
+    <div class="txt">
+      <div class="warn">宠物是 <b>Pro 会员功能</b>：升级后才能领养、投喂小窝伙伴；Basic 仅本地保存与导出。</div>
+      <h3 class="sub-h">手把手：养第一只宠物</h3>
+      <ol class="steps">
+        <li>第一次进入宠物页，跟着<b>领养流程</b>挑一只合眼缘的小家伙。</li>
+        <li>回到宠物页：点 <b>🐾 摸摸</b> 跟它亲昵，点 <b>💬 说话</b> 听它回应。</li>
+        <li>正常用 App 就行——完成待办、专注、打卡都会变成它的<b>成长值</b>，名签下实时显示（如「闪耀 · 成长 268」）。</li>
+        <li>它还会把你当前的待办顶在名签下方，陪你一起惦记。</li>
+        <li>想再养？可以养多只，随时切换查看。</li>
+      </ol>
+      <div class="tip">宠物也有桌面小组件（大号），不用打开 App 就能摸摸它（见第 22 章）。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-pet.jpg" alt="宠物 Pro 门槛"><figcaption>未开通 Pro 时进入宠物页的提示</figcaption></figure>
+      <figure class="shot wide"><img src="images/widget-pet.jpg" alt="宠物小组件"><figcaption>宠物（大号组件）：橘子 · 闪耀 · 成长 268</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 19 搭子社交 ============ -->
+<section class="chapter" id="ch19">
+  <div class="ch-head"><span class="ch-num">19</span><h2>搭子社交：一起坚持</h2><span class="en">Together</span><span class="home">入口：底栏设置开启</span></div>
+  <p class="ch-lead">一个人坚持很难，那就拉个搭子。三个社交模块默认收在底栏设置里，想用就去「我的 → 底栏设置」打开（需登录账号）。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">🤝 打卡搭子：开一个打卡营</h3>
+      <ol class="steps">
+        <li>打卡搭子页点 <b>＋</b> 创建小组。</li>
+        <li>填<b>小组名称</b>（例如「早起打卡营」），选个<b>图标</b>或输入自定义 emoji。</li>
+        <li>设<b>打卡频率</b>：一周 / 一个月内「N 天完成」；设<b>打卡日历范围</b>。</li>
+        <li>选<b>打卡提醒</b>：不提醒全靠自觉 💪 / 到点没打卡 30 分钟后给没完成的搭子补提醒 / 半小时后再提醒一次。</li>
+        <li>（可选）<b>关联我的习惯</b>，打卡双计；群主还能<b>上传竖版壁纸</b>当打卡背景。</li>
+        <li>保存后把邀请发给朋友；搭子每次打卡，你还会收到青蛙币空投（第 17 章）。</li>
+      </ol>
+      <h3 class="sub-h">🧑‍🤝‍🧑 计划搭子：凭码组队</h3>
+      <ol class="steps">
+        <li>创建者：在计划搭子页建一个计划，点「<b>开启协作</b>」生成邀请码。</li>
+        <li>朋友：同一页面选「<b>凭码加入计划搭子</b>」，输入邀请码加入。</li>
+        <li>双方在<b>协作面板</b>里各自推进、进度互见；有邀请时顶部会显示「『某某』邀请你加入『某计划』」。</li>
+        <li>误删不慌：删除的计划会进<b>回收站</b>，可一键「还原并加入」。</li>
+      </ol>
+      <h3 class="sub-h">👥 待办圈：朋友的自习室</h3>
+      <ol class="steps">
+        <li>待办圈页先去<b>添加好友</b>。</li>
+        <li>逛逛<b>公共课堂</b>，或点「<b>创建我的课堂</b>」自建圈子。</li>
+        <li>在圈里看<b>今日动态</b>与好友的<b>历史完成待办</b>，互相「常做的事」里找同款任务。</li>
+        <li>还能去<b>好友零食袋</b>偷点零食（偷过会标记「已偷过」😄）；遇到不欢迎的内容可举报，拉黑后对方即从圈里移除。</li>
+      </ol>
+      <div class="shots" style="margin-top:18px">
+        <figure class="shot"><img src="images/new-journey.jpg" alt="旅程空态"><figcaption>旅程首页：新建计划 / 添加行程 / 粘贴识别（贴一段行程文字自动拆段）</figcaption></figure>
+        <figure class="shot"><img src="images/new-circle.jpg" alt="待办圈"><figcaption>待办圈：好友 / 课堂 / 今日动态</figcaption></figure>
+      </div>
+      <div class="tip">搭子类功能需要双方都有账号；宠物也可以在圈里「藏起」不给别人看。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 20 表盘工坊 ============ -->
+<section class="chapter" id="ch20">
+  <div class="ch-head"><span class="ch-num">20</span><h2>表盘工坊：戴上手腕</h2><span class="en">Watch Studio</span><span class="home">入口：底栏设置开启</span></div>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：设计一块表盘</h3>
+      <ol class="steps">
+        <li>打开「表盘工坊」，点 <b>新建表盘</b>（或在「我的表盘」里选一块点<b>编辑</b>）。</li>
+        <li>点 <b>添加模块</b>，把今日待办、习惯连击、专注时长等信息块放上去。</li>
+        <li><b>点按模块即选中，拖动调整位置</b>；还能加粗、换配色。</li>
+        <li>（可选）<b>自定义照片背景</b>——原图只保存在本机；分享给朋友时会自动降级为渐变背景。</li>
+        <li>点「<b>在手表上试看效果</b>」预览，满意后<b>保存并关闭</b>，同步成功会显示「已同步到手表 ⌚️」，当前启用的表盘带「使用中 💖」标记。</li>
+      </ol>
+      <div class="tip">需要配对 Apple Watch 使用；没有手表也可以先在工坊里设计着玩。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 21 快捷指令中心 ============ -->
+<section class="chapter" id="ch21">
+  <div class="ch-head"><span class="ch-num">21</span><h2>快捷指令中心：一键直达</h2><span class="en">Shortcuts</span><span class="home">入口：底栏「百宝袋」</span></div>
+  <p class="ch-lead">把常用操作做成 iOS 快捷指令或 Siri 口令：倍刻List 已内置 8 条系统级指令，对 Siri 说口令直接用；也可以把深链做成自己的快捷指令，挂到主屏幕、背面轻点、操作按钮或小组件上。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">免设置：8 条系统已内置（Siri 直接用）</h3>
+      <ul class="points">
+        <li>这 8 条<b>无需创建</b>，已住进系统快捷指令 App：新建待办 / 今日未完成 / 打卡习惯 / 记一笔 / 开始专注 / 记录心情 / 写备忘录等。</li>
+        <li>对 Siri 说「<b>用倍刻List 新建待办</b>」「用倍刻List 看今日未完成」「用倍刻List 打卡 + 习惯名」即可触发。</li>
+        <li>在快捷指令 App 里搜索「<b>倍刻</b>」也能找到全部内置指令。</li>
+      </ul>
+      <h3 class="sub-h">手把手：做一个「新建待办」桌面指令</h3>
+      <ol class="steps">
+        <li>打开「快捷指令中心」，找到「待办快捷指令 → 新建待办」。</li>
+        <li>点右侧 <b>添加 / 去创建</b>（预制指令显示「添加」，直接调系统分享表单安装；其余「去创建」= 自动复制链接并打开编辑器）。</li>
+        <li>在快捷指令 App 里把它<b>添加到主屏幕</b>（或绑定背面轻点 / 操作按钮）。</li>
+        <li>以后点桌面图标，直接弹出倍刻List 的新建待办窗口。</li>
+      </ol>
+      <h3 class="sub-h">深链清单</h3>
+      <ul class="points">
+        <li><b>待办</b>：新建待办 / 今日未完成 / 打开待办页。</li>
+        <li><b>习惯</b>：打开习惯页 / 直开某个习惯的打卡面板。</li>
+        <li><b>记账</b>：一键弹出记一笔（支持 <code>ocr=clipboard</code> 识别剪贴板截图文本预填）。</li>
+        <li>每条都能先<b>复制链接</b>自己拼装；所有链接只在本机跳转，不联网、不收集数据。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/new-shortcuts.jpg" alt="快捷指令中心"><figcaption>快捷指令中心：每条深链都有「去创建」</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 22 小组件 ============ -->
+<section class="chapter" id="ch22">
+  <div class="ch-head"><span class="ch-num">22</span><h2>桌面小组件与小组件工坊</h2><span class="en">Widgets</span><span class="home">入口：我的 → 小组件工坊</span></div>
+  <p class="ch-lead">倍刻List 有一整套桌面小组件：待办勾选、习惯打卡、习惯热力、倒数日、计划、日历、宠物、旅程、统计、专注、时钟、年度进度……全部在「我的 → 小组件工坊」里管理。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">手把手：把小组件放上桌面</h3>
+      <ol class="steps">
+        <li>打开「我的 → <b>小组件工坊</b>」，浏览所有组件卡片。</li>
+        <li><b>长按</b>某张卡片，查看添加到桌面的图文步骤。</li>
+        <li>按提示回到桌面，长按空白处 → 左上角「＋」→ 搜索「倍刻List」→ 选尺寸添加。</li>
+        <li>添加后长按组件 → <b>编辑小组件</b>，配置展示内容（如倒数日选哪张卡片、习惯热力的时间范围）。</li>
+      </ol>
+      <h3 class="sub-h">工坊里还能做什么</h3>
+      <ul class="points">
+        <li><b>点按卡片</b>：预览样式、自定义背景与主题色。</li>
+        <li><b>数据通道</b>：查看每个组件的数据是否在线（App Group 共享缓存），异常一键「重载全部」。</li>
+        <li><b>可交互</b>：待办勾选、习惯打卡、摸摸宠物等组件支持桌面直接操作（卡片上标有交互数）。</li>
+        <li><b>导入方案</b>：别人搭配好的主题方案一键导入。</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="images/widget-studio.jpg" alt="小组件工坊"><figcaption>小组件工坊：预览、交互数、数据状态</figcaption></figure>
+      <figure class="shot"><img src="images/widget-focus.jpg" alt="专注小组件"><figcaption>专注（大号）：今日目标环 + 近 14 天趋势</figcaption></figure>
+    </div>
+  </div>
+  <div class="shots">
+    <figure class="shot wide"><img src="images/widget-habit.jpg" alt="习惯打卡小组件"><figcaption>习惯打卡（中号）：一屏打完今天的卡</figcaption></figure>
+    <figure class="shot wide"><img src="images/widget-pet.jpg" alt="宠物小组件"><figcaption>宠物（大号）：桌面上摸摸它</figcaption></figure>
+    <figure class="shot wide"><img src="images/widget-plan.jpg" alt="计划小组件"><figcaption>计划（大号）：关键结果随手推进</figcaption></figure>
+    <figure class="shot wide"><img src="images/widget-journey.jpg" alt="旅程小组件"><figcaption>旅程（大号·夜色）：行程一目了然</figcaption></figure>
+  </div>
+</section>
+
+<!-- ============ 23 Mac 版 ============ -->
+<section class="chapter" id="ch23">
+  <div class="ch-head"><span class="ch-num">23</span><h2>Mac 版与快捷键</h2><span class="en">macOS</span><span class="home">入口：Mac 客户端</span></div>
+  <p class="ch-lead">倍刻List 也有 Mac 版：底部胶囊导航把全部模块平铺开（统计 / 待办 / 计划 / 旅程 / 待办圈 / 打卡搭子 / 计划搭子 / 进度条 / 活动 / 复盘 / 倍刻环 / 账单 / 收集单 / 我的），数据与 iPhone 同步。</p>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">键盘快捷键</h3>
+      <table class="fields">
+        <tr><th>快捷键</th><th>作用</th></tr>
+        <tr><td><kbd>⌘</kbd> <kbd>1</kbd> – <kbd>4</kbd></td><td>菜单栏快速切换主栏目</td></tr>
+        <tr><td><kbd>⌘</kbd> <kbd>N</kbd></td><td>「新建」当前页——在哪个页面就新建哪个模块的条目（如待办页 = 新建待办）</td></tr>
+        <tr><td><kbd>⌘</kbd> <kbd>R</kbd></td><td>手动刷新同步</td></tr>
+      </table>
+      <div class="tip">iPad 外接键盘同样适用这组快捷键。</div>
+    </div>
+    <div class="shots">
+      <figure class="shot mac"><img src="images/new-review.jpg" alt="Mac 版复盘页"><figcaption>Mac 版：复盘页与全模块平铺底栏</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 24 账号与设置 ============ -->
+<section class="chapter" id="ch24">
+  <div class="ch-head"><span class="ch-num">24</span><h2>账号、同步与设置</h2><span class="en">Settings</span><span class="home">入口：底栏「我的」</span></div>
+  <div class="cols">
+    <div class="txt">
+      <h3 class="sub-h">账号与同步</h3>
+      <ul class="points">
+        <li><b>本地优先</b>：核心数据默认存在本机，不强制登录、不上传。</li>
+        <li><b>登录</b>：「我的」页顶部账号卡登录（用户名 2–50 字符 + 密码），也支持 <b> 通过 Apple 登录</b>；登录后待办 / 日程 / 倒数日 / 计划可多端同步；可绑定微信。</li>
+        <li><b>iCloud 同步</b>：「我的 → 数据同步」开启后多设备自动同步，数据只进你自己的 iCloud。</li>
+      </ul>
+      <h3 class="sub-h">常用设置入口（我的 → 设置）</h3>
+      <ul class="points">
+        <li><b>底栏设置</b>：自定义导航栏目顺序与显隐（见第 01 章）。</li>
+        <li><b>通知中心</b>：集中管理待办提醒、打卡提醒。</li>
+        <li><b>回收站</b>：删除的习惯 / 计划 / 搭子计划都在这里，<b>7 天内可还原</b>。</li>
+        <li><b>设置中心三大类</b>：外观与布局（主题 / 待办视图 / 底栏导航 / 日历视图 / 图标）、数据与同步（健康数据 / 云端同步 / 微信绑定 / 备份恢复）、关于与帮助——先选大类再进具体功能，每个入口都显示用途说明。</li>
+        <li><b>小组件工坊</b>：桌面组件的统一管理台（见第 22 章）。</li>
+        <li><b>Pro 会员</b>：解锁复盘周 / 月自选、进度条无限条数与皮肤图鉴、倍刻环主题色卡、待办删除线等。</li>
+        <li><b>多语言</b>：简体中文 / 繁体中文 / English。</li>
+        <li><b>诊断与反馈</b>：遇到问题一键导出诊断信息发给客服。</li>
+      </ul>
+      <div class="shots" style="margin-bottom:18px">
+        <figure class="shot"><img src="images/new-profile.jpg" alt="我的页"><figcaption>「我的」页：登录卡 + 回收站 + 设置中心三大类</figcaption></figure>
+      </div>
+      <div class="tip">本教程所有截图来自开发测试版，个别文案与位置以 App Store 最新版为准。</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>倍刻List · 看见每一点小小的坚持</p>
+  <p style="margin-top:6px">全功能详解教程 · 更新于 2026-09-28</p>
+</footer>
+</div>
+
+<div id="lightbox" onclick="this.classList.remove('open')"><img id="lb-img" src="" alt="放大查看"></div>
+<script>
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  document.querySelectorAll('figure.shot img').forEach(img => {
+    img.addEventListener('click', () => { lbImg.src = img.src; lb.classList.add('open'); });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+</script>
+</body>
+</html>
